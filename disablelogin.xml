@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<extension version="3.6" type="plugin" group="system" method="upgrade">
+	<name>PLG_HRZ_DISABLE_LOGIN</name>
+	<author>Stefan Herzog, COBIZ Webdevelopment</author>
+	<creationDate>October 2021</creationDate>
+	<copyright>(C) 2005 - 2021 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>joomla@devel.stefan-herzog.com</authorEmail>
+	<authorUrl>github.com/alve89 cobiz.nl</authorUrl>
+	<version>0.0.1</version>
+	<description>Plugin for disable users in frontend</description>
+
+	<files>
+		<filename plugin="disablelogin">disablelogin.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<languages folder="language/de-DE">
+		<language tag="de-DE">de-DE.plg_system_disablelogin.ini</language>
+		<language tag="de-DE">de-DE.plg_system_disablelogin.sys.ini</language>
+	</languages>
+
+	<updateservers>
+  		<server type="extension" priority="1" name="PLG_HRZ_DISABLE_LOGIN">https://raw.githubusercontent.com/alve89/j_plg_hrz_disablelogin/master/updates.xml</server>
+	</updateservers>
+</extension>
