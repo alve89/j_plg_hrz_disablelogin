@@ -21,5 +21,6 @@
         <maintainerurl>https://github.com/alve89/</maintainerurl>
         <targetplatform name="joomla" version="3.10" />
         <targetplatform name="joomla" version="4.0" />
+        <sha256>042998B75D81461D7FD9A08FAD4A75972151AC67C314C9D3B4C644E1292C9E42</sha256>
     </update>
 </updates>
