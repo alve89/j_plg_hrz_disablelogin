@@ -8,17 +8,20 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>joomla@devel.stefan-herzog.com</authorEmail>
 	<authorUrl>github.com/alve89 cobiz.nl</authorUrl>
-	<version>0.0.1</version>
-	<description>Plugin for disable users in frontend</description>
+	<version>0.0.2</version>
+	<description>PLG_HRZ_DISABLE_LOGIN_DESCRIPTION</description>
 
 	<files>
 		<filename plugin="disablelogin">disablelogin.php</filename>
 		<filename>index.html</filename>
 	</files>
 
-	<languages folder="language/de-DE">
-		<language tag="de-DE">de-DE.plg_system_disablelogin.ini</language>
-		<language tag="de-DE">de-DE.plg_system_disablelogin.sys.ini</language>
+
+	<languages>
+		<language tag="de-DE">language/de-DE/de-DE.plg_system_disablelogin.ini</language>
+		<language tag="de-DE">language/de-DE/de-DE.plg_system_disablelogin.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_disablelogin.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_disablelogin.sys.ini</language>
 	</languages>
 
 	<updateservers>

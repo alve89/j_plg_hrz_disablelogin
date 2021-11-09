@@ -1,4 +1,11 @@
-<?php defined('_JEXEC') or die;
+<?php
+/**
+ * @package 	plg_hrz_disablelogin
+ * @copyright 	(c) 2021 Stefan Herzog
+ * @license		GNU/GPL, http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
