@@ -34,12 +34,16 @@ class PlgSystemDisableLogin extends CMSPlugin
         if ($option == 'com_users') {
             $this->redirect();
         }
+        
+        // @todo: Add logging for all processed URLs
+        // @body: This allows finding not-working addresses which are supposed to work. Add URL-SEO translation if possible
     }
 
     protected function redirect() {
         $Itemid = $this->getHomePageItemid();
         $app = Factory::getApplication();
         $link = Route::_('index.php?Itemid=' . $Itemid);
+        // @todo: Use Joomla Language Support
         Factory::getApplication()->enqueueMessage('Zugang verweigert', 'error');
         $app->redirect($link);
     }
