@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <extension version="3.6" type="plugin" group="system" method="upgrade">
-	<name>PLG_HRZ_DISABLE_LOGIN</name>
+	<name>PLG_HRZ_DISABLELOGIN</name>
 	<author>Stefan Herzog, COBIZ Webdevelopment</author>
 	<creationDate>October 2021</creationDate>
 	<copyright>(C) 2005 - 2021 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>joomla@devel.stefan-herzog.com</authorEmail>
 	<authorUrl>github.com/alve89 cobiz.nl</authorUrl>
-	<version>0.0.2</version>
-	<description>PLG_HRZ_DISABLE_LOGIN_DESCRIPTION</description>
+	<version>0.0.3</version>
+	<description>PLG_HRZ_DISABLELOGIN_DESCRIPTION</description>
 
 	<files>
 		<filename plugin="disablelogin">disablelogin.php</filename>
 		<filename>index.html</filename>
 	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="enableLogging"
+					type="radio"
+					default="0"
+					label="PLG_HRZ_DISABLELOGIN_FIELD_ENABLELOGGING_LABEL"
+					description="PLG_HRZ_DISABLELOGIN_FIELD_ENABLELOGGING_DESC"
+					class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 
 
 	<languages>
@@ -25,6 +42,6 @@
 	</languages>
 
 	<updateservers>
-  		<server type="extension" priority="1" name="PLG_HRZ_DISABLE_LOGIN">https://raw.githubusercontent.com/alve89/j_plg_hrz_disablelogin/master/updates.xml</server>
+  		<server type="extension" priority="1" name="PLG_HRZ_DISABLELOGIN">https://raw.githubusercontent.com/alve89/j_plg_hrz_disablelogin/master/updates.xml</server>
 	</updateservers>
 </extension>

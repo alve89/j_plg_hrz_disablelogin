@@ -14,6 +14,9 @@ use Joomla\CMS\Uri\Uri;
 
 class PlgSystemDisableLogin extends CMSPlugin
 {
+
+    private $uri = '';
+    
     public function onAfterInitialise() {
         $this->disableLogin();
     }
@@ -22,29 +25,37 @@ class PlgSystemDisableLogin extends CMSPlugin
         $app = Factory::getApplication();
         if ($app->isClient('site') === false) return;
 
-        $uri = Uri::getInstance();
+        $this->uri = Uri::getInstance();
 
         // Search for string in URI
-        if(strpos($uri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
+        if(strpos( $this->uri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
           $this->redirect();
+          return;
         }
 
         // Check if com_users is used
         $option  = $app->input->getCmd('option');
         if ($option == 'com_users') {
             $this->redirect();
+            return;
         }
         
         // @todo: Add logging for all processed URLs
         // @body: This allows finding not-working addresses which are supposed to work. Add URL-SEO translation if possible
+        
+        // Log address which is NOT blocked
+        if( $this->params->get('enableLogging') )$this->logAddress(false);
     }
 
     protected function redirect() {
+        // Log address which is blocked
+        if( $this->params->get('enableLogging') )$this->logAddress(true);
+        
         $Itemid = $this->getHomePageItemid();
         $app = Factory::getApplication();
         $link = Route::_('index.php?Itemid=' . $Itemid);
-        // @todo: Use Joomla Language Support
-        Factory::getApplication()->enqueueMessage('Zugang verweigert', 'error');
+        
+        Factory::getApplication()->enqueueMessage(PLG_HRZ_DISABLELOGIN_MESSAGE_ACCESS_DENIED, 'error');
         $app->redirect($link);
     }
 
@@ -59,5 +70,22 @@ class PlgSystemDisableLogin extends CMSPlugin
         $db->setQuery($query);
         $data = $db->loadResult();
         return $data;
+    }
+    
+    private function logAddress($blocked) {
+        	JLog::addLogger(
+        	    array(
+        	         // Sets file name
+        	         'text_file' => 'plg_hrz_disablelogin.log.php'
+        	    ),
+        	    // Sets messages of all log levels to be sent to the file.
+        	    JLog::ALL,
+        	    // The log category/categories which should be recorded in this file.
+        	    // We still need to put it inside an array.
+        	    array('plg_hrz_disablelogin')
+        	);
+        	
+        	$msg = ($blocked) ? PLG_HRZ_DISABLELOGIN_LOG_MSG_BLOCKED : PLG_HRZ_DISABLELOGIN_LOG_MSG_NOT_BLOCKED;
+        	JLog::add(JText::_($msg . $this->url), JLog::DEBUG, 'plg_hrz_disablelogin');
     }
 }
