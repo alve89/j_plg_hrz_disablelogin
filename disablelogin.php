@@ -14,21 +14,43 @@ use Joomla\CMS\Uri\Uri;
 
 class PlgSystemDisableLogin extends CMSPlugin
 {
-
-    private $uri = '';
+    private $correctKey = false;
+	private $currentUri = '';
     
     public function onAfterInitialise() {
-        $this->disableLogin();
+        $app		= JFactory::getApplication();
+        $session= JFactory::getSession();
+    
+        // Use this plugin only in frontend
+        if($app->isClient('site') === false) return;
+    
+        // Get current URL
+        $this->currentUri = Uri::getInstance();
+        
+        // Check if secret key is provided or if it already was provided in the current session
+        if(is_null($this->params->get('securityKey')) || $session->get('disablelogin')) {
+			return;
+		}
+        
+        // Check if security key has been entered
+		$this->correctKey = !is_null($app->input->get($this->params->get('securityKey')));
+        
+        if($this->correctKey) {
+			// Correct key was provided with URL
+			$session = JFactory::getSession();
+			$session->set('disablelogin', true);
+			return;
+		}
+		else {
+            $this->disableLogin();
+        }
     }
 
     protected function disableLogin() {
         $app = Factory::getApplication();
-        if ($app->isClient('site') === false) return;
-
-        $this->uri = Uri::getInstance();
 
         // Search for string in URI
-        if(strpos( $this->uri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
+        if(strpos( $this->currentUri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
           $this->redirect();
           return;
         }
