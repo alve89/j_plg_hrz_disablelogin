@@ -41,6 +41,7 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_disablelogin.sys.ini</language>
 	</languages>
 
+
 	<updateservers>
   		<server type="extension" priority="1" name="PLG_HRZ_DISABLELOGIN">https://raw.githubusercontent.com/alve89/j_plg_hrz_disablelogin/master/updates.xml</server>
 	</updateservers>

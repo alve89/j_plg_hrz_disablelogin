@@ -14,16 +14,26 @@ use Joomla\CMS\Uri\Uri;
 
 class PlgSystemDisableLogin extends CMSPlugin
 {
-
+    /**
+    * Load the language file on instantiation.
+    *
+    * @var    boolean
+    * @since  3.1
+    */
+    protected $autoloadLanguage = true;
     private $uri = '';
-    
+    private $app = NULL;
+
     public function onAfterInitialise() {
-        $this->disableLogin();
+      $this->app = Factory::getApplication();
+      if ($this->app->isClient('site') === false) return;
+
+      $this->disableLogin();
     }
 
     protected function disableLogin() {
-        $app = Factory::getApplication();
-        if ($app->isClient('site') === false) return;
+
+
 
         $this->uri = Uri::getInstance();
 
@@ -34,29 +44,29 @@ class PlgSystemDisableLogin extends CMSPlugin
         }
 
         // Check if com_users is used
-        $option  = $app->input->getCmd('option');
+        $option  = $this->app->input->getCmd('option');
         if ($option == 'com_users') {
             $this->redirect();
             return;
         }
-        
+
         // @todo: Add logging for all processed URLs
         // @body: This allows finding not-working addresses which are supposed to work. Add URL-SEO translation if possible
-        
+
         // Log address which is NOT blocked
         if( $this->params->get('enableLogging') )$this->logAddress(false);
     }
 
     protected function redirect() {
         // Log address which is blocked
-        if( $this->params->get('enableLogging') )$this->logAddress(true);
-        
+        if( $this->params->get('enableLogging') ) $this->logAddress(true);
+
         $Itemid = $this->getHomePageItemid();
-        $app = Factory::getApplication();
+        //$app = Factory::getApplication();
         $link = Route::_('index.php?Itemid=' . $Itemid);
-        
-        Factory::getApplication()->enqueueMessage(PLG_HRZ_DISABLELOGIN_MESSAGE_ACCESS_DENIED, 'error');
-        $app->redirect($link);
+
+        Factory::getApplication()->enqueueMessage(JText::_('PLG_HRZ_DISABLELOGIN_MESSAGE_ACCESS_DENIED'), 'error');
+        $this->app->redirect($link);
     }
 
     protected function getHomePageItemid() {
@@ -71,7 +81,7 @@ class PlgSystemDisableLogin extends CMSPlugin
         $data = $db->loadResult();
         return $data;
     }
-    
+
     private function logAddress($blocked) {
         	JLog::addLogger(
         	    array(
@@ -84,8 +94,8 @@ class PlgSystemDisableLogin extends CMSPlugin
         	    // We still need to put it inside an array.
         	    array('plg_hrz_disablelogin')
         	);
-        	
-        	$msg = ($blocked) ? PLG_HRZ_DISABLELOGIN_LOG_MSG_BLOCKED : PLG_HRZ_DISABLELOGIN_LOG_MSG_NOT_BLOCKED;
-        	JLog::add(JText::_($msg . $this->url), JLog::DEBUG, 'plg_hrz_disablelogin');
+
+        	$msg = ($blocked) ? JText::_('PLG_HRZ_DISABLELOGIN_LOG_MSG_BLOCKED') : JText::_('PLG_HRZ_DISABLELOGIN_LOG_MSG_NOT_BLOCKED');
+        	JLog::add($msg . $this->uri, JLog::DEBUG, 'plg_hrz_disablelogin');
     }
 }
