@@ -21,24 +21,46 @@ class PlgSystemDisableLogin extends CMSPlugin
     * @since  3.1
     */
     protected $autoloadLanguage = true;
-    private $uri = '';
+    private $currentUri = '';
+    private $correctKey = false;
     private $app = NULL;
+    private $session = NULL;
 
     public function onAfterInitialise() {
       $this->app = Factory::getApplication();
-      if ($this->app->isClient('site') === false) return;
+      $this->session= JFactory::getSession();
+      $this->currentUri = Uri::getInstance();
 
-      $this->disableLogin();
+      // Use this plugin only in frontend
+      if($this->app->isClient('site') === false) return;
+
+      // Check if secret key is provided or if it already was provided in the current session
+      if(is_null($this->params->get('secretKey'))) {
+        $this->app->enqueueMessage(JText::_('PLG_HRZ_DISABLELOGIN_MESSAGE_WARNING_NO_SECRET'), 'WARNING');
+        return;
+      }
+      elseif($this->session->get('enablelogin')) {
+        return;
+      }
+
+      // Check if security key has been entered
+      $this->correctKey = !is_null($this->app->input->get($this->params->get('secretKey')));
+
+      // Check if correct key was provided with URL
+      if($this->correctKey) {
+        // Set session variable to "store" status "access granted"
+        $this->session->set('enablelogin', true);
+        return;
+      }
+      else {
+        // If user is not allowed, disable login
+        $this->disableLogin();
+      }
     }
 
     protected function disableLogin() {
-
-
-
-        $this->uri = Uri::getInstance();
-
         // Search for string in URI
-        if(strpos( $this->uri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
+        if(strpos( $this->currentUri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
           $this->redirect();
           return;
         }
@@ -61,8 +83,7 @@ class PlgSystemDisableLogin extends CMSPlugin
         $Itemid = $this->getHomePageItemid();
         //$app = Factory::getApplication();
         $link = Route::_('index.php?Itemid=' . $Itemid);
-
-        Factory::getApplication()->enqueueMessage(JText::_('PLG_HRZ_DISABLELOGIN_MESSAGE_ACCESS_DENIED'), 'error');
+        if($this->params->get('messageOutput')) $this->app->enqueueMessage(JText::_('PLG_HRZ_DISABLELOGIN_MESSAGE_ERROR_ACCESS_DENIED'), 'error');
         $this->app->redirect($link);
     }
 
