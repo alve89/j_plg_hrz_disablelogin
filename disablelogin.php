@@ -50,9 +50,6 @@ class PlgSystemDisableLogin extends CMSPlugin
             return;
         }
 
-        // @todo: Add logging for all processed URLs
-        // @body: This allows finding not-working addresses which are supposed to work. Add URL-SEO translation if possible
-
         // Log address which is NOT blocked
         if( $this->params->get('enableLogging') )$this->logAddress(false);
     }

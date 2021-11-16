@@ -8,7 +8,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>joomla@devel.stefan-herzog.com</authorEmail>
 	<authorUrl>github.com/alve89 cobiz.nl</authorUrl>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<description>PLG_HRZ_DISABLELOGIN_DESCRIPTION</description>
 
 	<files>
@@ -29,6 +29,14 @@
 						<option value="1">JYES</option>
 						<option value="0">JNO</option>
 				</field>
+				
+				<field
+					name="secretKey"
+					type="text"
+					placeholder="PLG_HRZ_DISABLELOGIN_FIELD_SECRETKEY_PLACEHOLDER"
+					label="PLG_HRZ_DISABLELOGIN_FIELD_SECRETKEY_LABEL"
+					description="PLG_HRZ_DISABLELOGIN_FIELD_SECRETKEY_DESC"
+					/>
 			</fieldset>
 		</fields>
 	</config>
