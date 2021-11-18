@@ -22,6 +22,7 @@ class PlgSystemDisableLogin extends CMSPlugin
     */
     protected $autoloadLanguage = true;
     private $currentUri = '';
+  	private $redirectUri = '';
     private $correctKey = false;
     private $app = NULL;
     private $session = NULL;
@@ -29,7 +30,6 @@ class PlgSystemDisableLogin extends CMSPlugin
     public function onAfterInitialise() {
       $this->app = Factory::getApplication();
       $this->session= JFactory::getSession();
-      $this->currentUri = Uri::getInstance();
 
       // Use this plugin only in frontend
       if($this->app->isClient('site') === false) return;
@@ -53,13 +53,15 @@ class PlgSystemDisableLogin extends CMSPlugin
         return;
       }
       else {
+        // Set correct URIs to perform redirect
+        $this->setUris();
         // If user is not allowed, disable login
         $this->disableLogin();
       }
     }
 
     protected function disableLogin() {
-        // Search for string in URI
+        // Check if com_users is used in URI
         if(strpos( $this->currentUri, 'component/user') !== false) { // I missed out the 's' at the end of 'users' to have a more restrictive condition
           $this->redirect();
           return;
@@ -80,12 +82,37 @@ class PlgSystemDisableLogin extends CMSPlugin
         // Log address which is blocked
         if( $this->params->get('enableLogging') ) $this->logAddress(true);
 
-        $Itemid = $this->getHomePageItemid();
-        //$app = Factory::getApplication();
-        $link = Route::_('index.php?Itemid=' . $Itemid);
+        // If error message is set as to be displayed, show it
         if($this->params->get('messageOutput')) $this->app->enqueueMessage(JText::_('PLG_HRZ_DISABLELOGIN_MESSAGE_ERROR_ACCESS_DENIED'), 'error');
-        $this->app->redirect($link);
+
+        // Perform the redirect
+        $this->app->redirect($this->redirectUri->toString());
     }
+
+    private function setUris() {
+
+      // Get current URI to check it later
+      $this->currentUri = Uri::getInstance();
+
+  		// Set redirect URI: Use specified one (from plugin configuration) or default (Joomla Home)
+  		// redirectUri is either http(s)://mydomain.tld or, if Joomla is installed in subdirectory, http(s)://mydomain.tld/path/to/joomla
+  		// It's not depending on where it is called from (site/admin)
+  	 if(substr($this->params->get('redirectUrl'),0,4) == 'http') {
+  		 // If a valid URI was set, use this
+  		 $this->redirectUri = Uri::getInstance($this->params->get('redirectUrl'));
+  	 }
+  	 // If an relative path was set, use this)
+  	 else if(substr($this->params->get('redirectUrl'),0,1) == '/') {
+  		 // Set redirect URI (remove leading slash first)
+  		 $this->redirectUri = Uri::getInstance(Uri::root().substr($this->params->get('redirectUrl'),1));
+  	 }
+  	 else {
+  		 // Otherwise use the default URI (Joomlas home page)
+       $Itemid = $this->getHomePageItemid();
+       $link = Route::_('index.php?Itemid=' . $Itemid);
+       $this->redirectUri = Uri::getInstance($link);
+  	 }
+  	}
 
     protected function getHomePageItemid() {
         $tableName = '#__menu';

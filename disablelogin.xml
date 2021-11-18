@@ -8,7 +8,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>joomla@devel.stefan-herzog.com</authorEmail>
 	<authorUrl>github.com/alve89 cobiz.nl</authorUrl>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<description>PLG_HRZ_DISABLELOGIN_DESCRIPTION</description>
 
 	<files>
@@ -38,16 +38,23 @@
 					description="PLG_HRZ_DISABLELOGIN_FIELD_SECRETKEY_DESC"
 					/>
 
-					<field
-						name="messageOutput"
-						type="radio"
-						default="0"
-						label="PLG_HRZ_DISABLELOGIN_FIELD_MESSAGEOUTPUT_LABEL"
-						description="PLG_HRZ_DISABLELOGIN_FIELD_MESSAGEOUTPUT_DESC"
-						class="btn-group btn-group-yesno">
-							<option value="1">JYES</option>
-							<option value="0">JNO</option>
-					</field>
+				<field
+					name="messageOutput"
+					type="radio"
+					default="0"
+					label="PLG_HRZ_DISABLELOGIN_FIELD_MESSAGEOUTPUT_LABEL"
+					description="PLG_HRZ_DISABLELOGIN_FIELD_MESSAGEOUTPUT_DESC"
+					class="btn-group btn-group-yesno">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>
+
+				<field name="redirectUrl"
+				 type="url"
+				 size="50"
+				 placeholder="/path/relative/to/JoomlaRoot/ or http://myDomain.tld"
+				 label="PLG_HRZ_DISABLELOGIN_FIELD_REDIRECTURL_LABEL"
+				 description="PLG_HRZ_DISABLELOGIN_FIELD_REDIRECTURL_DESC" />
 
 			</fieldset>
 		</fields>
