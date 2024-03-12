@@ -8,7 +8,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>joomla@devel.stefan-herzog.com</authorEmail>
 	<authorUrl>github.com/alve89 cobiz.nl</authorUrl>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<description>PLG_HRZ_DISABLELOGIN_DESCRIPTION</description>
 
 	<files>
