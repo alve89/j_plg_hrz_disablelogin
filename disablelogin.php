@@ -97,12 +97,12 @@ class PlgSystemDisableLogin extends CMSPlugin
   		// Set redirect URI: Use specified one (from plugin configuration) or default (Joomla Home)
   		// redirectUri is either http(s)://mydomain.tld or, if Joomla is installed in subdirectory, http(s)://mydomain.tld/path/to/joomla
   		// It's not depending on where it is called from (site/admin)
-  	 if(substr($this->params->get('redirectUrl'),0,4) == 'http') {
+  	 if(!is_null($this->params->get('redirectUrl')) && substr($this->params->get('redirectUrl'),0,4) == 'http') {
   		 // If a valid URI was set, use this
   		 $this->redirectUri = Uri::getInstance($this->params->get('redirectUrl'));
   	 }
   	 // If an relative path was set, use this)
-  	 else if(substr($this->params->get('redirectUrl'),0,1) == '/') {
+  	 else if( !is_null($this->params->get('redirectUrl')) && substr($this->params->get('redirectUrl'),0,1) == '/') {
   		 // Set redirect URI (remove leading slash first)
   		 $this->redirectUri = Uri::getInstance(Uri::root().substr($this->params->get('redirectUrl'),1));
   	 }
