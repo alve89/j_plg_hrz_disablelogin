@@ -4,14 +4,14 @@
         <description></description>
         <element>plg_hrz_disablelogin</element>
         <type>module</type>
-        <version>0.0.7</version>
+        <version>0.0.8</version>
         <client>0</client>
-        <infourl title="Release notes">https://github.com/alve89/j_plg_hrz_disablelogin/releases/tag/v0.0.6</infourl>
+        <infourl title="Release notes">https://github.com/alve89/j_plg_hrz_disablelogin/releases/tag/v0.0.7</infourl>
         <downloads>
             <downloadurl
                 type="full"
                 format="zip">
-                https://github.com/alve89/j_plg_hrz_disablelogin/archive/v0.0.6.zip
+                https://github.com/alve89/j_plg_hrz_disablelogin/archive/v0.0.7.zip
             </downloadurl>
         </downloads>
         <tags>
@@ -20,7 +20,7 @@
         <maintainer>Stefan Herzog</maintainer>
         <maintainerurl>https://github.com/alve89/</maintainerurl>
         <targetplatform name="joomla" version="3.10" />
-        <targetplatform name="joomla" version="4.4" />
+        <targetplatform name="joomla" version="[45].[0123456789]" />
         <sha256>xxx</sha256>
     </update>
 </updates>
