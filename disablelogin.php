@@ -141,6 +141,6 @@ class PlgSystemDisableLogin extends CMSPlugin
         	);
 
         	$msg = ($blocked) ? JText::_('PLG_HRZ_DISABLELOGIN_LOG_MSG_BLOCKED') : JText::_('PLG_HRZ_DISABLELOGIN_LOG_MSG_NOT_BLOCKED');
-        	JLog::add($msg . $this->uri, JLog::DEBUG, 'plg_hrz_disablelogin');
+        	JLog::add($msg . $this->currentUri, JLog::DEBUG, 'plg_hrz_disablelogin');
     }
 }
